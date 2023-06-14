@@ -1,0 +1,42 @@
+#using python
+
+
+def MB(a): #tranforms bytes to Megabytes
+  Mb = float(a/1048576)
+  return Mb
+  
+def porc(a): #calculetes the porcentege each user occupies between each one of them
+ b = (a*100)/tt
+ b = round(b, 2)
+ return b
+
+
+
+
+usuários_txt = [456123789, 1245698456, 123456456, 91257581, 987458, 789456125]
+usuários = ['alexandre', 'anderson', 'antonio', 'carlos', 'cesar', 'rosemary']      #these were writen in order, for example: Alexandre uses 456123789 bytes and so on
+tt = 0 #will be our total space used
+méd = 0 #will be the average each user occupies
+
+for el in usuários_txt:
+ tt += MB(el)
+tt = round(tt, 2)#defining the average in Megabytes
+
+
+with open('usuarios.txt', 'w') as arq: #this is the core of this code, here we open a file titled: "usuarios.txt", in the form of 'w' wich basically creates the file from the beggining, and reffer to him as "arq"
+
+ for (el, al) in zip(usuários, usuários_txt):          #here we use the zip() comand in the for... in to alternate between the users names(el) and the space they occupy(al)
+  arq.write(f'{el:<9}      {al}')     #and use the comand arq.write() to insert el and al in usuarios.txt
+
+with open('relátorios.txt', 'w') as arq:
+ arq.write('ACME Inc.               Uso do espaço em disco pelos usuários\n')
+ arq.write('------------------------------------------------------------------------\n')
+ arq.write('Nr.  Usuário        Espaço utilizado     % do uso\n')
+ for i, (le, la) in enumerate(zip(usuários, usuários_txt), start=1):
+  al = MB(la)
+  arq.write(f'\n{i:<4}    {le:<15}       {round(al, 2):>15} MB      {porc(al)}%')
+ 
+ méd = len(usuários_txt)
+ méd = tt/méd
+ arq.write(f'\n\n\nEspaço total ocupado: {round(total, 2)} MB\n')
+ arq.write(f'Espaço médio ocupado: {round(méd, 2)} MB')
