@@ -1,5 +1,5 @@
 #using python
-
+#creating a report that explains how much Megabytes each user is using as well as the porcentage each occupies between them selfs
 
 def MB(a): #tranforms bytes to Megabytes
   Mb = float(a/1048576)
@@ -26,17 +26,20 @@ tt = round(tt, 2)#defining the average in Megabytes
 with open('usuarios.txt', 'w') as arq: #this is the core of this code, here we open a file titled: "usuarios.txt", in the form of 'w' wich basically creates the file from the beggining, and reffer to him as "arq"
 
  for (el, al) in zip(usuários, usuários_txt):          #here we use the zip() comand in the for... in to alternate between the users names(el) and the space they occupy(al)
-  arq.write(f'{el:<9}      {al}')     #and use the comand arq.write() to insert el and al in usuarios.txt
+  arq.write(f'{el:<9}      {al}')     #and use the comand arq.write() to insert [el] and [al] in usuarios.txt( the ':<9' is for aligning the strings)
 
-with open('relátorios.txt', 'w') as arq:
+with open('relátorios.txt', 'w') as arq:  #here we do the same but with relatorio.txt, which will be our final report
  arq.write('ACME Inc.               Uso do espaço em disco pelos usuários\n')
- arq.write('------------------------------------------------------------------------\n')
- arq.write('Nr.  Usuário        Espaço utilizado     % do uso\n')
- for i, (le, la) in enumerate(zip(usuários, usuários_txt), start=1):
-  al = MB(la)
-  arq.write(f'\n{i:<4}    {le:<15}       {round(al, 2):>15} MB      {porc(al)}%')
+ arq.write('------------------------------------------------------------------------\n')    # here is just some stylization
+ arq.write('Nr.  Usuário        Espaço utilizado     % do uso\n')   #here we define the structure of the report which is: "number, user, space occupied and % of usage form the total amount (remenber the 'tt')
  
- méd = len(usuários_txt)
- méd = tt/méd
+ for i, (le, la) in enumerate(zip(usuários, usuários_txt), start=1):        # the zip() I already explained how it works here the new face is enumerate() which will add the nunber of the
+                                                                              position in a variable(i) (it usually starts in 0, that's why the "start=1")
+  
+  al = MB(la)   #defining "al" as "la" in Megabytes
+  arq.write(f'\n{i:<4}    {le:<15}       {round(al, 2):>15} MB      {porc(al)}%') #writing the information from each user
+ 
+ méd = len(usuários_txt)#using len in a list gives you how many itens are in it
+ méd = tt/méd #calculate the average space occupied
  arq.write(f'\n\n\nEspaço total ocupado: {round(total, 2)} MB\n')
- arq.write(f'Espaço médio ocupado: {round(méd, 2)} MB')
+ arq.write(f'Espaço médio ocupado: {round(méd, 2)} MB')#write in the file the total amount and the average occupied
